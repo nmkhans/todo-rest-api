@@ -18,11 +18,19 @@ const registerUser = async (req, res) => {
                     email,
                     password: hashedPassword
                 };
-                const result = await userModel.create(userData);
+                await userModel.create(userData);
+                const user = await userModel.findOne({email: email}, {password: 0});
+                const token = jwt.sign(
+                    {email: user.email},
+                    process.env.TOKEN_SECRET,
+                    {expiresIn: "1h"}
+                );
+
                 res.status(200).json({
                     success: true,
                     message: "user register successfull",
-                    data: result
+                    data: user,
+                    token: token
                 });
             } else {
                 return res.status(500).json({
@@ -55,7 +63,7 @@ const loginUser = async (req, res) => {
         if (matchUser) {
             const userData = await userModel.findOne({ email: email }, { password: 0 });
             const token = jwt.sign({email: userData.email}, process.env.TOKEN_SECRET, {
-                "expiresIn": "1d"
+                "expiresIn": "1h"
             });
 
             res.status(200).json({
