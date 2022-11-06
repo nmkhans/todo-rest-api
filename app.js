@@ -1,13 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bodyparser = require("body-parser");
 const router = require("./src/routes/api");
 
 
 //? app configuration
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(bodyparser.json())
 
 //? database connection
 mongoose.connect("mongodb://localhost:27017/todo_rest_api")
