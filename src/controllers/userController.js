@@ -5,7 +5,7 @@ const userModel = require("../models/userModel");
 //? register a new user
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword } = req.body;
+        const { name, email, phone, address, password, confirmPassword } = req.body;
         const userExist = await userModel.findOne(
             { email: email }, { email: 1 }
         );
@@ -16,6 +16,8 @@ const registerUser = async (req, res) => {
                 const userData = {
                     name,
                     email,
+                    phone, 
+                    address,
                     password: hashedPassword
                 };
                 await userModel.create(userData);
