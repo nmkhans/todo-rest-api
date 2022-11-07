@@ -1,9 +1,11 @@
 const { Router } = require("express");
 const defaultController = require("../controllers/defaultController");
-const { registerUser,
-        loginUser
-} = require("../controllers/userController");
 const verifyUser = require("../middleWares/verifyUser");
+const {
+    registerUser,
+    loginUser,
+    updateUser,
+} = require("../controllers/userController");
 
 //? define router
 const router = Router();
@@ -17,6 +19,9 @@ router.get("/", defaultController);
 router.post("/registerUser", registerUser);
 
 //? login a user
-router.post("/loginUser", loginUser)
+router.post("/loginUser", loginUser);
+
+//? update a user
+router.put("/updateUser/:id", updateUser);
 
 module.exports = router;
