@@ -22,6 +22,6 @@ router.post("/registerUser", registerUser);
 router.post("/loginUser", loginUser);
 
 //? update a user
-router.put("/updateUser/:id", updateUser);
+router.put("/updateUser/:id", verifyUser, updateUser);
 
 module.exports = router;

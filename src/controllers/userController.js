@@ -113,33 +113,38 @@ const loginUser = async (req, res) => {
 //? update a user
 const updateUser = async (req, res) => {
     try {
-        const { id } = req.params;
-        const data = req.body;
-        const updatedDoc = {
-            $set: {
-                name: data.name ,
-                email: data.email ,
-                phone: data.phone ,
-                address: data.address,
-            },
-        };
-        const options = { upsert: true };
-        const result = await userModel.updateOne(
-            { _id: id },
-            updatedDoc,
-            options
-        );
+        const decodedEmail = req.decoded.email;
+        const { email } = req.query;
+        
+        if (decodedEmail === email) {
+            const { id } = req.params;
+            const data = req.body;
+            const updatedDoc = {
+                $set: {
+                    name: data.name,
+                    email: data.email,
+                    phone: data.phone,
+                    address: data.address,
+                },
+            };
+            const options = { upsert: true };
+            const result = await userModel.updateOne(
+                { _id: id },
+                updatedDoc,
+                options
+            );
 
-        res.status(200).json({
-            success: true,
-            message: "user successfully updated",
-            data: result
-        })
+            res.status(200).json({
+                success: true,
+                message: "user successfully updated",
+                data: result,
+            });
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
             message: "user update failed",
-            error: error
+            error: error,
         });
     }
 };
