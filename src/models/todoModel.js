@@ -16,12 +16,10 @@ const todoSchema = mongoose.Schema({
     status: {
         type: String,
         default: "New",
-        required: true
     },
     date: {
         type: Date,
         default: Date.now,
-        required: true
     }
 
 }, { versionKey: false });
