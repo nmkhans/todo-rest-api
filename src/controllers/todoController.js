@@ -75,7 +75,7 @@ const updateTodoStatus = async (req, res) => {
         const { id } = req.params;
         const updatedDoc = {
             $set: {
-                status
+                status,
             },
         };
         const result = await todoModel.updateOne({ _id: id }, updatedDoc, {
@@ -85,12 +85,32 @@ const updateTodoStatus = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "status updated",
+            data: result,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Status update failed",
+            error: error,
+        });
+    }
+};
+
+//? filter todo by status
+const filterByStatus = async (req, res) => {
+    try {
+        const { email, status } = req.query;
+        const result = await todoModel.find({ email: email, status: status });
+
+        res.status(200).json({
+            success: true,
+            message: "filter result",
             data: result
         })
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Status update failed",
+            message: "There was a server side error",
             error: error
         })
     }
@@ -100,5 +120,6 @@ module.exports = {
     createTodo,
     getTodo,
     updateTodo,
-    updateTodoStatus
+    updateTodoStatus,
+    filterByStatus,
 };

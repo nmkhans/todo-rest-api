@@ -11,6 +11,7 @@ const {
     getTodo,
     updateTodo,
     updateTodoStatus,
+    filterByStatus,
 } = require("../controllers/todoController");
 
 //? define router
@@ -41,5 +42,8 @@ router.put("/updateTodo/:id", updateTodo);
 
 //? update a todo status
 router.put("/updateTodoStatus/:id", updateTodoStatus);
+
+//? filter todo by status
+router.get("/filterByStatus", filterByStatus);
 
 module.exports = router;
