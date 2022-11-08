@@ -6,7 +6,7 @@ const {
     loginUser,
     updateUser,
 } = require("../controllers/userController");
-const { createTodo, getTodo } = require("../controllers/todoController");
+const { createTodo, getTodo, updateTodo } = require("../controllers/todoController");
 
 //? define router
 const router = Router();
@@ -30,5 +30,8 @@ router.post("/createTodo", createTodo);
 
 //? get todo
 router.get("/getTodo", getTodo);
+
+//? update a todo
+router.put("/updateTodo/:id", updateTodo);
 
 module.exports = router;

@@ -20,7 +20,7 @@ const createTodo = async (req, res) => {
     }
 };
 
-//? read todo
+//? get todo
 const getTodo = async (req, res) => {
     try {
         const { email } = req.query;
@@ -40,7 +40,36 @@ const getTodo = async (req, res) => {
     }
 };
 
+//? update todo
+const updateTodo = async (req, res) => {
+    try {
+        const data = req.body;
+        const { id } = req.params;
+        const updatedDoc = {
+            $set: {
+                ...data
+            },
+        };
+        const result = await todoModel.updateOne({ _id: id }, updatedDoc, {
+            upsert: true,
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Update successfully",
+            data: result,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Update failed",
+            error: error,
+        });
+    }
+};
+
 module.exports = {
     createTodo,
     getTodo,
+    updateTodo,
 };
