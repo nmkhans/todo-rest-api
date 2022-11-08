@@ -47,7 +47,7 @@ const updateTodo = async (req, res) => {
         const { id } = req.params;
         const updatedDoc = {
             $set: {
-                ...data
+                ...data,
             },
         };
         const result = await todoModel.updateOne({ _id: id }, updatedDoc, {
@@ -68,8 +68,37 @@ const updateTodo = async (req, res) => {
     }
 };
 
+//? update todo status
+const updateTodoStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const { id } = req.params;
+        const updatedDoc = {
+            $set: {
+                status
+            },
+        };
+        const result = await todoModel.updateOne({ _id: id }, updatedDoc, {
+            upsert: true,
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "status updated",
+            data: result
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Status update failed",
+            error: error
+        })
+    }
+};
+
 module.exports = {
     createTodo,
     getTodo,
     updateTodo,
+    updateTodoStatus
 };
